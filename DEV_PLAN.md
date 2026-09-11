@@ -2,6 +2,26 @@
 
 This plan turns `PRD.md` into an incremental Android implementation. The project is greenfield, so the first milestone establishes the build, native audio bridge, and test harness before product UI work begins.
 
+## Progress snapshot — September 11, 2026
+
+The repository has completed the initial Phase 0 foundation and is ready to begin the real audio stream lifecycle work in Phase 1.
+
+- Phase 0 project bootstrap: complete.
+- Phase 0 schema and local persistence: complete, including schema-0 migration and atomic `project.json` writes.
+- Phase 0 fake engine and native bridge types: complete.
+- Bluetooth calibration math and SCO-rejecting route policy: implemented and covered by JVM tests.
+- Oboe/AAudio stream lifecycle, hardware routing assertions, and loopback validation: not started.
+- Recording, WAV persistence, recovery, playback graph, and DSP processing: not started.
+
+Validation completed on September 11, 2026:
+
+- `./gradlew test` — passed.
+- `./gradlew lint` — passed.
+- `./gradlew assembleDebug` — passed for arm64-v8a, armeabi-v7a, x86, and x86_64.
+- Gradle wrapper and GitHub Actions CI workflow are checked in.
+
+The next implementation slice is Phase 1 work items 1–5: add Oboe stream lifecycle, pin capture to the built-in microphone, configure the music-safe input source, keep Bluetooth playback stable without SCO, and expose/persist route and timestamp metadata.
+
 ## Delivery principles
 
 - Prove Bluetooth overdub alignment before investing in the rest of the product.
@@ -21,11 +41,11 @@ This plan turns `PRD.md` into an incremental Android implementation. The project
 
 ### Work
 
-1. Create the Gradle project, application shell, native library, and Compose theme.
-2. Add runtime permission handling for `RECORD_AUDIO` and the microphone foreground service.
-3. Add native/JNI command and event types for transport, routing, recording, playback, and errors.
-4. Define project, track, region, processing, calibration, and export data models.
-5. Add a small fake engine implementation so the UI can be developed before the real engine is complete.
+1. [x] Create the Gradle project, application shell, native library, and Compose theme.
+2. [x] Add runtime permission handling for `RECORD_AUDIO` and the microphone foreground service.
+3. [x] Add native/JNI command and event types for transport, routing, recording, playback, and errors.
+4. [x] Define project, track, region, processing, calibration, and export data models.
+5. [x] Add a small fake engine implementation so the UI can be developed before the real engine is complete.
 
 ### Exit criteria
 
@@ -39,15 +59,15 @@ This is the release gate for the product concept. Nothing beyond the spike is tr
 
 ### Work
 
-1. Implement Oboe input and output streams with AAudio on supported devices.
-2. Pin capture to the built-in microphone and verify the routed input device.
-3. Configure `VOICE_PERFORMANCE` or `UNPROCESSED` when available, with voice processing disabled.
-4. Keep Bluetooth playback running with a stable buffer and never enable SCO.
-5. Capture and persist pipeline timestamps, route, codec, sample rate, and device identity.
-6. Build the Sync Check wizard with tap collection, outlier rejection, median offset calculation, and persisted calibration records.
-7. Apply the measured total offset to recorded regions and expose a temporary nudge control.
-8. Build an offline alignment calculator and an instrumented routing assertion suite.
-9. Create the loopback test procedure using the reference device and earbud matrix from the PRD.
+1. [ ] Implement Oboe input and output streams with AAudio on supported devices.
+2. [ ] Pin capture to the built-in microphone and verify the routed input device.
+3. [ ] Configure `VOICE_PERFORMANCE` or `UNPROCESSED` when available, with voice processing disabled.
+4. [ ] Keep Bluetooth playback running with a stable buffer and never enable SCO.
+5. [ ] Capture and persist pipeline timestamps, route, codec, sample rate, and device identity.
+6. [~] Build the Sync Check wizard with tap collection, outlier rejection, median offset calculation, and persisted calibration records. (Calibration statistics and persistence models exist; the wizard UI and device integration remain.)
+7. [~] Apply the measured total offset to recorded regions and expose a temporary nudge control. (Offset math exists; recording-region integration and UI remain.)
+8. [~] Build an offline alignment calculator and an instrumented routing assertion suite. (JVM alignment math and SCO-rejecting policy tests exist; native/instrumented assertions remain.)
+9. [ ] Create the loopback test procedure using the reference device and earbud matrix from the PRD.
 
 ### Exit criteria
 

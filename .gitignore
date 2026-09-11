@@ -1,12 +1,23 @@
 # Gradle files
 .gradle/
 build/
+.kotlin/
+
+# Android module build outputs
+reports/
+test-results/
 
 # Local configuration file (sdk path, etc)
 local.properties
 
 # Log/OS Files
 *.log
+.DS_Store
+Thumbs.db
+
+# Java/Kotlin compiler output
+*.class
+hs_err_pid*
 
 # Android Studio generated files and folders
 captures/
